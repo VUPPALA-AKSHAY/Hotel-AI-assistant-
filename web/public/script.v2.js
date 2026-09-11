@@ -176,11 +176,12 @@ function init() {
         themeToggleMobile.addEventListener('click', toggleTheme);
     }
 
-    // Load saved theme
+    // Load saved theme first to determine current theme
     loadSavedTheme();
 
-    // Load Vapi SDK
-    loadVapiWidget();
+    // Load Vapi SDK, then create widget after it's ready
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    loadVapiWidget(() => updateVapiTheme(currentTheme));
 
     // Start blur text animation
     startBlurTextAnimation();
@@ -273,9 +274,13 @@ function toggleTheme() {
 let vapiLoadRetries = 0;
 const VAPI_MAX_RETRIES = 3;
 const VAPI_SDK_URL = '/vapi-widget.js';
+let vapiSdkLoaded = false;
 
-function loadVapiWidget() {
-    if (document.getElementById('vapi-widget-script')) return;
+function loadVapiWidget(callback) {
+    if (document.getElementById('vapi-widget-script')) {
+        if (vapiSdkLoaded && callback) callback();
+        return;
+    }
     if (vapiLoadRetries >= VAPI_MAX_RETRIES) {
         console.warn('[Vapi] Max retries reached, skipping SDK load');
         return;
@@ -289,14 +294,16 @@ function loadVapiWidget() {
 
     script.onload = () => {
         console.log('[Vapi] SDK loaded successfully');
+        vapiSdkLoaded = true;
+        if (callback) callback();
     };
 
     script.onerror = () => {
         console.warn(`[Vapi] SDK load failed (attempt ${vapiLoadRetries + 1}/${VAPI_MAX_RETRIES})`);
-        script.remove();
+        script.removeAttribute('id');
         vapiLoadRetries++;
         if (vapiLoadRetries < VAPI_MAX_RETRIES) {
-            setTimeout(loadVapiWidget, 2000 * vapiLoadRetries);
+            setTimeout(() => loadVapiWidget(callback), 2000 * vapiLoadRetries);
         }
     };
 
@@ -391,8 +398,7 @@ function loadSavedTheme() {
     // Update all theme text
     updateThemeText(savedTheme);
 
-    // Update Vapi Widget Theme
-    updateVapiTheme(savedTheme);
+    // Vapi widget theme is updated via SDK onload callback in init()
 }
 
 /**
