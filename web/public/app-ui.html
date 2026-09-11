@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grand Palm – Guest Assistant</title>
+    <meta name="description"
+        content="Get instant answers about The Grand Palm hotel - rooms, amenities, dining, policies, and more using AI-powered chat.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.v3.css?v=5.2">
+    <link rel="stylesheet" href="history.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%2310b981'/%3E%3Ctext x='16' y='22' font-size='18' font-weight='bold' text-anchor='middle' fill='white'%3EGP%3C/text%3E%3C/svg%3E">
+</head>
+
+<body>
+
+    <!-- ══════════════════════════════════════════════════
+         MAIN CHAT UI
+    ══════════════════════════════════════════════════ -->
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <!-- Logo -->
+            <div class="sidebar-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 32 32" class="sidebar-logo-img" style="width:32px;height:32px"><circle cx="16" cy="16" r="15" fill="#10b981"/><text x="16" y="22" font-size="18" font-weight="bold" text-anchor="middle" fill="white">GP</text></svg>
+                </div>
+                <span class="logo-text">The Grand Palm</span>
+                <span class="beta-badge">BETA</span>
+            </div>
+
+            <!-- New Chat Button -->
+            <button class="new-chat-btn" id="newChatBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+                <span>New Chat</span>
+            </button>
+
+            <!-- Theme Toggle -->
+            <button class="theme-toggle-btn" id="themeToggle">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <span>Light Mode</span>
+            </button>
+
+            
+            <!-- Chat History -->
+            <div class="sidebar-scroll">
+                <div class="history-header">
+                    <h3 class="section-label">Recent Chats</h3>
+                </div>
+                <div class="history-list" id="historyList"></div>
+            </div>
+
+<!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="social-icons">
+                    <span class="history-empty" style="padding:0;font-size:0.72rem;">The Grand Palm · Guest Assistant</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button class="menu-btn" id="openSidebarBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                </button>
+                <div class="top-bar-right">
+                    <button class="icon-btn theme-toggle-topbar" id="themeToggleMobile" title="Toggle Theme">
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5" />
+                            <line x1="12" y1="1" x2="12" y2="3" />
+                            <line x1="12" y1="21" x2="12" y2="23" />
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                            <line x1="1" y1="12" x2="3" y2="12" />
+                            <line x1="21" y1="12" x2="23" y2="12" />
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                        </svg>
+                        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                        </svg>
+                        <span id="themeToggleText">Light Mode</span>
+                    </button>
+                    <button class="icon-btn user-btn" title="Profile">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <div class="chat-area" id="chatArea">
+                <!-- Welcome Screen -->
+                <div class="welcome-screen" id="welcomeScreen">
+                    <!-- Blur Text Animation as Main Title -->
+                    <div class="blur-text-wrapper">
+                        <p class="blur-text-container" id="blurTextContainer"></p>
+                    </div>
+
+                    <!-- Main Input -->
+                    <div class="main-input-container">
+                        <div class="input-box">
+                            <div class="animated-placeholder" id="animatedPlaceholder">
+                                <span class="placeholder-text"></span>
+                            </div>
+                            <textarea id="messageInput" class="message-input" placeholder="" rows="1"
+                                autocomplete="off"></textarea>
+                        </div>
+                        <div class="input-actions">
+                            <div class="input-actions-left" style="display:none !important" style="display:none !important">
+                            </div>
+                            <div class="input-actions-right">
+                                <!-- Mode Selector (Fast/Thinking) -->
+                                <div class="mode-selector" id="modeSelector">
+                                    <button class="mode-selector-btn" id="modeSelectorBtn">
+                                        <span class="mode-name" id="selectedModeName">Fast</span>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            width="14" height="14">
+                                            <polyline points="6 9 12 15 18 9" />
+                                        </svg>
+                                    </button>
+                                    <div class="mode-dropdown" id="modeDropdown">
+                                        <div class="mode-option active" data-mode="fast">
+                                            <span class="mode-option-name">Fast</span>
+                                            <span class="mode-option-desc">Hotel Info</span>
+                                        </div>
+</div>
+                                </div>
+
+                                <!-- Model Selector Dropdown -->
+                                <div class="model-selector" id="modelSelector">
+                                    <button class="model-selector-btn" id="modelSelectorBtn">
+                                        <img id="selectedModelLogo" class="provider-img selected-model-logo" alt="" hidden>
+                                        <span class="model-name" id="selectedModelName">LING 3.0 FLASH</span>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            width="14" height="14">
+                                            <polyline points="6 9 12 15 18 9" />
+                                        </svg>
+                                    </button>
+                                    <div class="model-dropdown" id="modelDropdown">
+                                        <!-- Search Input -->
+                                        <div class="model-search-container">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="11" cy="11" r="8"></circle>
+                                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                            </svg>
+                                            <input type="text" id="modelSearchInput" class="model-search-input"
+                                                placeholder="Search model..." autocomplete="off">
+                                        </div>
+
+                                        <!-- Categories (populated dynamically from /api/models) -->
+                                        <div class="model-list" id="modelList"></div>
+                                    </div>
+                                </div>
+                                <button class="send-button" id="sendButton" aria-label="Send message">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 19V5M5 12l7-7 7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Facts (About Us Improvisation) - Aceternity Style -->
+                    <div class="quick-facts-grid">
+                        <!-- Card 1: About the Hotel -->
+                        <div class="fact-card-wrapper"
+                            onclick="document.getElementById('messageInput').value='Tell me about The Grand Palm hotel'; handleInputChange(); document.getElementById('sendButton').click();">
+                            <!-- Glow Effect Layers -->
+                            <div class="glow-border"></div>
+                            <div class="glow-blur"></div>
+                            <!-- Inner Content Card -->
+                            <div class="fact-card-content">
+                                <div class="fact-icon fact-icon-blue">
+                                    <span>i</span>
+                                </div>
+                                <div class="fact-text">
+                                    <h3>About the Hotel</h3>
+                                    <p>Luxury stays with modern amenities and warm hospitality.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Rooms -->
+                        <div class="fact-card-wrapper"
+                            onclick="document.getElementById('messageInput').value='What room types are available at the hotel?'; handleInputChange(); document.getElementById('sendButton').click();">
+                            <!-- Glow Effect Layers -->
+                            <div class="glow-border"></div>
+                            <div class="glow-blur"></div>
+                            <!-- Inner Content Card -->
+                            <div class="fact-card-content">
+                                <div class="fact-icon fact-icon-green">
+                                    <span>✓</span>
+                                </div>
+                                <div class="fact-text">
+                                    <h3>Rooms</h3>
+                                    <p>Comfortable rooms with a range of sizes and amenities.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Dining -->
+                        <div class="fact-card-wrapper"
+                            onclick="document.getElementById('messageInput').value='What dining options does the hotel offer?'; handleInputChange(); document.getElementById('sendButton').click();">
+                            <!-- Glow Effect Layers -->
+                            <div class="glow-border"></div>
+                            <div class="glow-blur"></div>
+                            <!-- Inner Content Card -->
+                            <div class="fact-card-content">
+                                <div class="fact-icon fact-icon-purple">
+                                    <span>#</span>
+                                </div>
+                                <div class="fact-text">
+                                    <h3>Dining</h3>
+                                    <p>In-house restaurants, room service, and curated menus.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Amenities -->
+                        <div class="fact-card-wrapper"
+                            onclick="document.getElementById('messageInput').value='What amenities are available at the hotel?'; handleInputChange(); document.getElementById('sendButton').click();">
+                            <!-- Glow Effect Layers -->
+                            <div class="glow-border"></div>
+                            <div class="glow-blur"></div>
+                            <!-- Inner Content Card -->
+                            <div class="fact-card-content">
+                                <div class="fact-icon fact-icon-orange">
+                                    <span>≡</span>
+                                </div>
+                                <div class="fact-text">
+                                    <h3>Amenities</h3>
+                                    <p>Pool, gym, spa, free Wi-Fi, concierge, and more.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Container -->
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be added here -->
+                </div>
+
+                <!-- Thinking Indicator (React ThinkingIndicator mounts here) -->
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                            <path d="M2 17l10 5 10-5" />
+                            <path d="M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
+                    <div class="typing-content">
+                        <div id="thinkingIndicatorRoot"><div class="thinking-fallback" style="display:flex;align-items:center;gap:8px;font-size:13px;color:#9ca3af"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="animation:spin 1s linear infinite"><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 22a10 10 0 0 1-10-10"/></svg> <span>Thinking…</span><span class="thinking-dots" style="margin-left:4px"><span>.</span><span>.</span><span>.</span></span></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fixed Input (shows when chat started) -->
+            <div class="fixed-input-area" id="fixedInputArea">
+                <div class="fixed-input-container">
+                    <div class="input-box">
+                        <textarea id="messageInputFixed" class="message-input"
+                            placeholder="Ask anything about The Grand Palm..." rows="1" autocomplete="off"></textarea>
+                    </div>
+                    <div class="input-actions">
+                        <div class="input-actions-left" style="display:none !important" style="display:none !important">
+                        </div>
+                        <div class="input-actions-right">
+                            <!-- Mode Selector (Fast/Thinking) -->
+                            <div class="mode-selector" id="modeSelectorFixed">
+                                <button class="mode-selector-btn" id="modeSelectorBtnFixed">
+                                    <span class="mode-name" id="selectedModeNameFixed">Fast</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        width="14" height="14">
+                                        <polyline points="6 9 12 15 18 9" />
+                                    </svg>
+                                </button>
+                                <div class="mode-dropdown" id="modeDropdownFixed">
+                                    <div class="mode-option active" data-mode="fast">
+                                        <span class="mode-option-name">Fast</span>
+<span class="mode-option-desc">Hotel Info</span>
+                                        </div>
+</div>
+                            </div>
+
+                            <!-- Model Selector (synced with main) -->
+                            <div class="model-selector" id="modelSelectorFixed">
+                                <button class="model-selector-btn" id="modelSelectorBtnFixed">
+                                    <img id="selectedModelLogoFixed" class="provider-img selected-model-logo" alt="" hidden>
+                                    <span class="model-name" id="selectedModelNameFixed">LING 3.0 FLASH</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        width="14" height="14">
+                                        <polyline points="6 9 12 15 18 9" />
+                                    </svg>
+                                </button>
+                                <div class="model-dropdown" id="modelDropdownFixed">
+                                    <!-- Search Input -->
+                                    <div class="model-search-container">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                        <input type="text" id="modelSearchInputFixed" class="model-search-input"
+                                            placeholder="Search model..." autocomplete="off">
+                                    </div>
+
+                                    <!-- Categories (populated dynamically from /api/models) -->
+                                    <div class="model-list" id="modelListFixed"></div>
+                                </div>
+                            </div>
+                            <button class="send-button" id="sendButtonFixed" aria-label="Send message">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 19V5M5 12l7-7 7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <script src="script.v2.js?t=1768131500"></script>
+    <script src="voice.js"></script>
+
+</body>
+
+</html>

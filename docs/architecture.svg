@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="700" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="40" y="42" font-size="26" font-weight="700" fill="#0f172a">The Grand Palm — System Architecture</text>
+  <text x="40" y="68" font-size="15" fill="#64748b">Next.js UI · Express API · model router with auto-fallback · knowledge base + voice agents</text>
+
+  <!-- Client box -->
+  <rect x="40" y="120" width="300" height="176" rx="14" fill="#eef2ff" stroke="#6366f1" stroke-width="2"/>
+  <text x="60" y="152" font-size="17" font-weight="700" fill="#3730a3">Browser UI</text>
+  <text x="60" y="178" font-size="13" font-weight="600" fill="#334155">Next.js 14 · App Router · :3001</text>
+  <text x="60" y="206" font-size="13" fill="#475569">Chat window with streaming typing</text>
+  <text x="60" y="230" font-size="13" fill="#475569">Model picker (choose a model)</text>
+  <text x="60" y="254" font-size="13" fill="#475569">Availability form + room cards</text>
+  <text x="60" y="278" font-size="13" fill="#475569">Voice buttons: speak + call</text>
+  <text x="60" y="302" font-size="13" fill="#475569">dark / light theme</text>
+
+  <!-- Express API box -->
+  <rect x="430" y="120" width="290" height="176" rx="14" fill="#ecfeff" stroke="#0891b2" stroke-width="2"/>
+  <text x="450" y="152" font-size="17" font-weight="700" fill="#0e7490">Express API</text>
+  <text x="450" y="178" font-size="13" font-weight="600" fill="#334155">:3000 · dependency injection</text>
+  <text x="450" y="206" font-size="13" fill="#475569">POST /api/chat · /api/chat/stream</text>
+  <text x="450" y="230" font-size="13" fill="#475569">GET /api/availability · /api/models</text>
+  <text x="450" y="254" font-size="13" fill="#475569">GET /api/voice/config</text>
+  <text x="450" y="278" font-size="13" fill="#475569">POST /api/voice/synthesize</text>
+  <text x="450" y="302" font-size="13" fill="#475569">GET /api/knowledge</text>
+
+  <!-- Arrow UI -> API -->
+  <line x1="340" y1="195" x2="424" y2="195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="346" y="187" font-size="12" fill="#475569">POST /api/chat · SSE stream</text>
+
+  <!-- Model router box -->
+  <rect x="820" y="120" width="340" height="176" rx="14" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+  <text x="840" y="152" font-size="17" font-weight="700" fill="#c2410c">Model Router</text>
+  <text x="840" y="176" font-size="13" font-weight="600" fill="#334155">getLLMForModel() · auto-fallback</text>
+  <text x="840" y="199" font-size="11.5" fill="#9a3412">retries · empty content = next model · max_tokens 4096</text>
+
+  <rect x="846" y="214" width="150" height="30" rx="15" fill="#ffffff" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="921" y="233" font-size="12.5" text-anchor="middle" fill="#9a3412">MiMo V2.5</text>
+  <rect x="1006" y="214" width="150" height="30" rx="15" fill="#ffffff" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="1081" y="233" font-size="12.5" text-anchor="middle" fill="#9a3412">Muse Spark 1.2</text>
+  <rect x="846" y="250" width="150" height="30" rx="15" fill="#ffffff" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="921" y="269" font-size="12.5" text-anchor="middle" fill="#9a3412">Ling 3.0 Flash</text>
+  <rect x="1006" y="250" width="150" height="30" rx="15" fill="#ffffff" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="1081" y="269" font-size="12.5" text-anchor="middle" fill="#9a3412">Big Pickle</text>
+  <rect x="846" y="286" width="150" height="30" rx="15" fill="#ffffff" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="921" y="305" font-size="12.5" text-anchor="middle" fill="#9a3412">Hotel Agent</text>
+
+  <!-- Arrow API -> Router -->
+  <line x1="720" y1="195" x2="814" y2="195" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="726" y="187" font-size="12" fill="#475569">prompt</text>
+
+  <!-- Knowledge box -->
+  <rect x="430" y="376" width="290" height="176" rx="14" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="450" y="408" font-size="17" font-weight="700" fill="#15803d">Knowledge &amp; Data</text>
+  <text x="450" y="434" font-size="13" fill="#475569">hotel-knowledge.md  →  build:knowledge  →  .json</text>
+  <text x="450" y="458" font-size="13" fill="#475569">knowledge.js — fuzzy retrieval, never empty</text>
+  <text x="450" y="482" font-size="13" fill="#475569">availability.js — dates, stock, pricing</text>
+  <text x="450" y="506" font-size="13" fill="#475569">rooms · dining · spa · policies · FAQs</text>
+  <text x="450" y="530" font-size="13" fill="#475569">budget tiers · events · seasonal stays</text>
+
+  <!-- Arrow API -> Knowledge -->
+  <line x1="575" y1="296" x2="575" y2="370" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="584" y="338" font-size="12" fill="#475569">getContext · checkAvailability</text>
+
+  <!-- Voice box -->
+  <rect x="40" y="376" width="290" height="176" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="60" y="408" font-size="17" font-weight="700" fill="#6d28d9">Voice Agents</text>
+  <text x="60" y="434" font-size="13" fill="#475569">Vapi — phone-style calls via Web SDK</text>
+  <text x="60" y="458" font-size="13" fill="#475569">ElevenLabs — multilingual TTS (en · hi · kn)</text>
+  <text x="60" y="482" font-size="13" fill="#475569">audio streamed back to the browser</text>
+  <text x="60" y="506" font-size="13" fill="#475569">same system prompt + confidentiality rules</text>
+
+  <!-- Arrow Knowledge -> Voice (Vapi uses the same prompt / KB) -->
+  <line x1="424" y1="460" x2="336" y2="460" stroke="#64748b" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+  <text x="338" y="452" font-size="12" fill="#475569">Vapi uses same prompt + KB</text>
+
+  <!-- Safeguards box -->
+  <rect x="40" y="588" width="1120" height="84" rx="12" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="60" y="618" font-size="14" font-weight="700" fill="#b45309">Confidentiality &amp; reliability safeguards</text>
+  <text x="60" y="642" font-size="13" fill="#78350f">Only message content is ever served — model reasoning / chain-of-thought is never surfaced to guests.</text>
+  <text x="60" y="662" font-size="13" fill="#78350f">If a model returns empty content, the router falls back to the next model; the raw knowledge base is never quoted verbatim.</text>
+</svg>

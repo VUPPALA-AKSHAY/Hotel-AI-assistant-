@@ -1,0 +1,32 @@
+{
+  "name": "hotel-guest-assistant",
+  "version": "1.0.0",
+  "description": "Full-stack AI-powered hotel guest assistant - chat, availability check, and voice (ElevenLabs + Vapi).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "concurrently -n api,web -c green,cyan \"node server.js\" \"npm --prefix web run dev\"",
+    "dev:api": "node server.js",
+    "dev:web": "npm --prefix web run dev",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "create:vapi": "node scripts/create-vapi-assistant.js",
+    "build:knowledge": "node scripts/build-knowledge.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.30.0",
+    "@upstash/redis": "^1.38.4",
+    "@vercel/blob": "^2.8.0",
+    "@vercel/kv": "^3.0.0",
+    "axios": "^1.6.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.9"
+  }
+}

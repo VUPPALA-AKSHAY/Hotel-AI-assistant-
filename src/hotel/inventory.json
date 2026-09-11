@@ -1,0 +1,14 @@
+{
+  "rooms": {
+    "Deluxe King Room": { "total": 8 },
+    "Deluxe Twin Room": { "total": 6 },
+    "Seaview Balcony Room": { "total": 10 },
+    "Family Suite": { "total": 6 },
+    "Presidential Suite": { "total": 2 },
+    "Executive Suite": { "total": 4 },
+    "Connecting Deluxe Rooms": { "total": 5 },
+    "Accessible Room": { "total": 2 },
+    "Garden Villa": { "total": 3 }
+  },
+  "ninventoryNote": "Total bookable units per room type. Availability per date is computed deterministically in ../hotel/availability.js from this inventory."
+}

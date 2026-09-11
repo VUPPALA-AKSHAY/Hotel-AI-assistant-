@@ -1,0 +1,80 @@
+/* Chat history sidebar panel (replaces quick links) */
+.history-header {
+    padding: 8px 12px 4px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 8px 16px;
+}
+
+.history-empty {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    padding: 12px 12px;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1.35;
+    transition: background 0.15s ease, color 0.15s ease;
+    user-select: none;
+}
+
+.history-item svg {
+    flex-shrink: 0;
+    width: 15px;
+    height: 15px;
+    color: var(--text-muted);
+}
+
+.history-item-title {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.history-item:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.history-item.active {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.history-item-delete {
+    opacity: 0;
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px 4px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.history-item:hover .history-item-delete {
+    opacity: 0.7;
+}
+
+.history-item-delete:hover {
+    opacity: 1;
+    color: var(--text-primary);
+    background: var(--bg-button);
+}
