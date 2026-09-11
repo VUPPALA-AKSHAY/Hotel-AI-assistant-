@@ -353,6 +353,22 @@
     <!-- Overlay for mobile sidebar -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
+    <!-- Vapi voice widget: element must exist in DOM before the SDK loads
+         (the SDK scans for vapi-widget elements only once on DOMContentLoaded) -->
+    <vapi-widget
+        mode="voice"
+        position="bottom-right"
+        size="compact"
+        radius="large"
+        main-label="Click to Talk"
+        start-button-text="Click to Talk"
+        end-button-text="End Call"
+        empty-voice-message="Tap to talk with the hotel assistant"
+        public-key="faebf4d8-99d7-482a-bef2-1d281d8e9157"
+        assistant-id="5cd0ca4a-cb23-4ddc-ae6c-d8dfcd4965d3"
+        theme="dark"></vapi-widget>
+    <script id="vapi-widget-script" src="vapi-widget.js"></script>
+
     <script src="script.v2.js?t=1768131500"></script>
     <script src="voice.js"></script>
 

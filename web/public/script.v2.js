@@ -179,9 +179,10 @@ function init() {
     // Load saved theme first to determine current theme
     loadSavedTheme();
 
-    // Load Vapi SDK, then create widget after it's ready
+    // Apply current theme to the (already-mounted) Vapi widget element
+    // The SDK itself is loaded synchronously in app-ui.html before this script.
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-    loadVapiWidget(() => updateVapiTheme(currentTheme));
+    updateVapiTheme(currentTheme);
 
     // Start blur text animation
     startBlurTextAnimation();
@@ -269,50 +270,10 @@ function toggleTheme() {
 }
 
 /**
- * Load Vapi SDK script with retry on failure
- */
-let vapiLoadRetries = 0;
-const VAPI_MAX_RETRIES = 3;
-const VAPI_SDK_URL = '/vapi-widget.js';
-let vapiSdkLoaded = false;
-
-function loadVapiWidget(callback) {
-    if (document.getElementById('vapi-widget-script')) {
-        if (vapiSdkLoaded && callback) callback();
-        return;
-    }
-    if (vapiLoadRetries >= VAPI_MAX_RETRIES) {
-        console.warn('[Vapi] Max retries reached, skipping SDK load');
-        return;
-    }
-
-    const script = document.createElement('script');
-    script.id = 'vapi-widget-script';
-    script.src = VAPI_SDK_URL;
-    script.async = true;
-    script.type = 'text/javascript';
-
-    script.onload = () => {
-        console.log('[Vapi] SDK loaded successfully');
-        vapiSdkLoaded = true;
-        if (callback) callback();
-    };
-
-    script.onerror = () => {
-        console.warn(`[Vapi] SDK load failed (attempt ${vapiLoadRetries + 1}/${VAPI_MAX_RETRIES})`);
-        script.removeAttribute('id');
-        vapiLoadRetries++;
-        if (vapiLoadRetries < VAPI_MAX_RETRIES) {
-            setTimeout(() => loadVapiWidget(callback), 2000 * vapiLoadRetries);
-        }
-    };
-
-    document.body.appendChild(script);
-}
-
-/**
  * Update Vapi Widget Theme based on app theme
- * Implements Create-or-Update strategy to keep SDK connected
+ * The widget element is declared in app-ui.html before the SDK loads.
+ * The SDK scans for it once on DOMContentLoaded and mounts it, so we only
+ * adjust appearance attributes here.
  */
 /* eslint-disable no-undef */
 async function updateVapiTheme(theme) {
@@ -336,19 +297,12 @@ async function updateVapiTheme(theme) {
         console.warn('[Theme] Could not load Vapi config, using defaults', err);
     }
 
-    // 1. If widget doesn't exist (Initial Load), create it
+    // 1. Widget element comes from app-ui.html (declared before the SDK loads).
+    //    Never create it dynamically: the SDK scans for vapi-widget elements
+    //    only once on DOMContentLoaded, so late-created elements are ignored.
     if (!vapiWidget) {
-        console.log('[Theme] Initializing new Vapi Widget...');
-        vapiWidget = document.createElement('vapi-widget');
-        vapiWidget.setAttribute('mode', 'voice');
-        vapiWidget.setAttribute('position', 'bottom-right');
-        vapiWidget.setAttribute('size', 'compact');
-        vapiWidget.setAttribute('radius', 'large');
-        vapiWidget.setAttribute('main-label', 'Click to Talk');
-        vapiWidget.setAttribute('start-button-text', 'Click to Talk');
-        vapiWidget.setAttribute('end-button-text', 'End Call');
-        vapiWidget.setAttribute('empty-voice-message', 'Tap to talk with the hotel assistant');
-        document.body.appendChild(vapiWidget);
+        console.warn('[Theme] Vapi widget element not found in DOM');
+        return;
     }
 
     // 2. Point the widget at the live assistant creds
