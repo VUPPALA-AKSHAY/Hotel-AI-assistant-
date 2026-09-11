@@ -1220,6 +1220,10 @@ function bindModelSelectorEvents() {
         console.log(`Switched to: ${newName}`);
     }
 
+    // Guards against mobile ghost-clicks / focus-scroll: right after a dropdown
+    // opens, ignore events that would immediately close it again.
+    let suppressCloseUntil = 0;
+
     const positionDropdown = (dropdown, btn) => {
         const rect = btn.getBoundingClientRect();
         const padding = 12;
@@ -1245,11 +1249,13 @@ function bindModelSelectorEvents() {
 
     // Close on outer scroll/resize
     window.addEventListener('scroll', (e) => {
+        if (Date.now() < suppressCloseUntil) return;
         if (e.target.closest && (e.target.closest('.model-dropdown') || e.target.closest('.model-dropdown-fixed'))) return;
         if (modelDropdown) modelDropdown.classList.remove('active');
         if (modelDropdownFixed) modelDropdownFixed.classList.remove('active');
     }, true);
     window.addEventListener('resize', () => {
+        if (Date.now() < suppressCloseUntil) return;
         if (modelDropdown) modelDropdown.classList.remove('active');
         if (modelDropdownFixed) modelDropdownFixed.classList.remove('active');
     });
@@ -1258,9 +1264,16 @@ function bindModelSelectorEvents() {
     if (modelSelectorBtn && modelDropdown) {
         modelSelectorBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            const wasActive = modelDropdown.classList.contains('active');
+            // Ignore the synthetic second click a touchscreen fires right after opening.
+            if (wasActive && Date.now() < suppressCloseUntil) {
+                e.preventDefault();
+                return;
+            }
             if (modelDropdownFixed) modelDropdownFixed.classList.remove('active');
             modelDropdown.classList.toggle('active');
             if (modelDropdown.classList.contains('active')) {
+                suppressCloseUntil = Date.now() + 350;
                 positionDropdown(modelDropdown, modelSelectorBtn);
                 const searchInput = modelDropdown.querySelector('.model-search-input');
                 if (searchInput) setTimeout(() => searchInput.focus(), 50);
@@ -1272,9 +1285,16 @@ function bindModelSelectorEvents() {
     if (modelSelectorBtnFixed && modelDropdownFixed) {
         modelSelectorBtnFixed.addEventListener('click', (e) => {
             e.stopPropagation();
+            const wasActive = modelDropdownFixed.classList.contains('active');
+            // Ignore the synthetic second click a touchscreen fires right after opening.
+            if (wasActive && Date.now() < suppressCloseUntil) {
+                e.preventDefault();
+                return;
+            }
             if (modelDropdown) modelDropdown.classList.remove('active');
             modelDropdownFixed.classList.toggle('active');
             if (modelDropdownFixed.classList.contains('active')) {
+                suppressCloseUntil = Date.now() + 350;
                 positionDropdown(modelDropdownFixed, modelSelectorBtnFixed);
                 const searchInput = modelDropdownFixed.querySelector('.model-search-input');
                 if (searchInput) setTimeout(() => searchInput.focus(), 50);
@@ -1319,6 +1339,7 @@ function bindModelSelectorEvents() {
 
     // Close dropdowns on outside click
     document.addEventListener('click', (e) => {
+        if (Date.now() < suppressCloseUntil) return;
         if (modelSelectorBtn && modelDropdown && !modelSelectorBtn.contains(e.target) && !modelDropdown.contains(e.target)) {
             modelDropdown.classList.remove('active');
         }
